@@ -20,7 +20,7 @@ export class Category {
     created_at: Date;
 
     constructor(props: CategoryConstructorProps) {
-        this.category_id = props.category_id ?? '';
+        this.category_id = props.category_id;
         this.name = props.name;
         this.description =props.description ?? null;
         this.is_active = props.is_active ?? true;
