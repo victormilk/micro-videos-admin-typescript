@@ -1,3 +1,4 @@
+import { StringToNumber } from "lodash";
 import { Entity } from "../entity";
 import { ValueObject } from "../value-object";
 import { SearchParams } from "./search-params";
@@ -17,7 +18,8 @@ export interface IRepository<E extends Entity, EntityId extends ValueObject> {
 export interface ISearchableRepository<
   E extends Entity,
   EntityId extends ValueObject,
-  SearchInput = SearchParams,
+  Filter = string,
+  SearchInput = SearchParams<Filter>,
   SearchOutput = SearchResult
 > extends IRepository<E, EntityId> {
   sortableFields: string[];
