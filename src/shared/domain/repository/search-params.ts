@@ -21,9 +21,9 @@ export class SearchParams<Filter = string> extends ValueObject {
     super();
     this.page = props.page;
     this.per_page = props.per_page;
-    this._sort = props.sort;
-    this._sort_dir = props.sort_dir;
-    this._filter = props.filter;
+    this.sort = props.sort;
+    this.sort_dir = props.sort_dir;
+    this.filter = props.filter;
   }
 
   get page(): number {
