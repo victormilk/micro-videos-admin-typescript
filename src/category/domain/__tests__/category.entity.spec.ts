@@ -142,3 +142,119 @@ describe("Category Unit Tests", () => {
     expect(category.is_active).toBeFalsy();
   });
 });
+
+describe("Category Validator", () => {
+  describe("create command", () => {
+    const nameArrange = [
+      {
+        name: null as any,
+        errors: [
+          "name should not be empty",
+          "name must be a string",
+          "name must be shorter than or equal to 255 characters",
+        ],
+      },
+      {
+        name: 1,
+        errors: [
+          "name must be a string",
+          "name must be shorter than or equal to 255 characters",
+        ],
+      },
+      {
+        name: "t".repeat(256),
+        errors: ["name must be shorter than or equal to 255 characters"],
+      },
+    ];
+
+    test.each(nameArrange)("name = %j", ({ name, errors }) => {
+      expect(() => Category.create({ name: name })).containsErrorMessages({
+        name: errors,
+      });
+    });
+
+    const descriptionArrange = [
+      {
+        description: 1,
+        errors: ["description must be a string"],
+      },
+    ];
+
+    test.each(descriptionArrange)(
+      "description = %j",
+      ({ description, errors }) => {
+        expect(() =>
+          Category.create({ description: description } as any)
+        ).containsErrorMessages({
+          description: errors,
+        });
+      }
+    );
+
+    const isActiveArrange = [
+      {
+        is_active: 1,
+        errors: ["is_active must be a boolean value"],
+      },
+    ];
+
+    test.each(isActiveArrange)("is_active = %j", ({ is_active, errors }) => {
+      expect(() =>
+        Category.create({ is_active: is_active } as any)
+      ).containsErrorMessages({
+        is_active: errors,
+      });
+    });
+  });
+
+  describe("changeName method", () => {
+    const arrange = [
+      {
+        name: null as any,
+        errors: [
+          "name should not be empty",
+          "name must be a string",
+          "name must be shorter than or equal to 255 characters",
+        ],
+      },
+      {
+        name: 1,
+        errors: [
+          "name must be a string",
+          "name must be shorter than or equal to 255 characters",
+        ],
+      },
+      {
+        name: "t".repeat(256),
+        errors: ["name must be shorter than or equal to 255 characters"],
+      },
+    ];
+
+    const category = Category.create({ name: "Movie" });
+
+    test.each(arrange)("name = %j", ({ name, errors }) => {
+      expect(() => category.changeName(name)).containsErrorMessages({
+        name: errors,
+      });
+    });
+  });
+
+  describe("changeDescription method", () => {
+    const arrange = [
+      {
+        description: 5,
+        errors: ["description must be a string"],
+      },
+    ];
+
+    const category = Category.create({ name: "Movie" });
+
+    test.each(arrange)("description = %j", ({ description, errors }) => {
+      expect(() =>
+        category.changeDescription(description as any)
+      ).containsErrorMessages({
+        description: errors,
+      });
+    });
+  });
+});
